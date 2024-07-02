@@ -11,7 +11,7 @@ exports.checkAccountPayload = (req, res, next) => {
   if (typeof name != 'string' 
     || name.trim().length < 3 
     || name.trim().length > 100) {
-      res.status(400).json({ message: 'name of account must be between 3 and 100 characters' });
+      res.status(400).json({ message: 'name of account must be between 3 and 100' });
     }
 
   if (isNaN(budget)) {
@@ -29,8 +29,7 @@ exports.checkAccountNameUnique = async (req, res, next) => {
   const { name } = req.body;
 
   try {
-    const existingAccount = await db('accounts')
-    .where('name', name.trim()).first();
+    const existingAccount = await db('accounts').where('name', name.trim()).first();
     if (existingAccount) {
       return res.status(400).json({ message: 'that name is taken' });
     }
